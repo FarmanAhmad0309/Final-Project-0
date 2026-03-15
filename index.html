@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction Pipeline Code</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .number { color: #d19a66; }
+        
+        .status-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <span class="status-badge">Python Script</span>
+    <h1>Telecom Churn Prediction Model</h1>
+    <p>Yeh code Logistic Regression aur KNN algorithms ka use karke customer churn predict karta hai.</p>
+
+    <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd<br>
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np<br>
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt<br>
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns<br>
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split<br>
+<br>
+<span class="comment"># --- STEP 1: LOAD DATA ---</span><br>
+<span class="keyword">def</span> <span class="function">run_churn_pipeline</span>(df):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Pre-processing data...</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;df.fillna(df.median(numeric_only=<span class="keyword">True</span>), inplace=<span class="keyword">True</span>)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Encode Categorical Variables</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;le = LabelEncoder()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> col <span class="keyword">in</span> df.select_dtypes(include=[<span class="string">'object'</span>]).columns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;df[col] = le.fit_transform(df[col])<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Define Features (X) and Target (y)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;X = df.drop(<span class="string">'Churn'</span>, axis=<span class="number">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;y = df[<span class="string">'Churn'</span>]<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Split and Scale</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;scaler = StandardScaler()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_train = scaler.fit_transform(X_train)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Model Training</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;models = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Logistic Regression"</span>: LogisticRegression(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"KNN"</span>: KNeighborsClassifier(n_neighbors=<span class="number">5</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> results, models<br>
+    </div>
+
+    <p style="margin-top: 20px; font-size: 0.9em; color: #666;">
+        * Note: Is code ko run karne ke liye aapko <strong>scikit-learn</strong> aur <strong>pandas</strong> library ki zaroorat hogi.
+    </p>
+</div>
+
+</body>
+</html>
